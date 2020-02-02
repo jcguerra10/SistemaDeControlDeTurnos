@@ -2,15 +2,15 @@ package model;
 
 public class Turn {
 
-	public static String LETTER;
-	public static String NUMBER;
+	public static char LETTER = 'A';
+	public static String NUMBER = "00";
 	private String turn;
 	private boolean attended;
 
-	public Turn(String turn, boolean attended) {
+	public Turn(String turn) {
 		super();
 		this.turn = turn;
-		this.attended = attended;
+		this.attended = false;
 	}
 
 	public String getTurn() {

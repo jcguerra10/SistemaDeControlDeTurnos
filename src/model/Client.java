@@ -90,12 +90,31 @@ public class Client {
 	}
 
 	/**
-	 * 
-	 * @param turn
 	 */
-	public void makeATurn(String turn) {
-
+	public void makeATurn() {
+		shifts.add(new Turn(Turn.LETTER+""+Turn.NUMBER));
+		String[] sp = Turn.NUMBER.split("");
+		int number0 = Integer.parseInt(sp[0]);
+		int number1 = Integer.parseInt(sp[1]);
+		if (number1 == 9) {
+			number1 = 0;
+			if (number0 == 9) {
+				number0 = 0;
+				if (Turn.LETTER == 'Z') {
+					Turn.LETTER = 'A';
+				}else {
+					Turn.LETTER += 1;
+				}
+			}else {
+				number0 += 1;
+			}
+		}else {
+			number1 += 1;
+		}
+		
+		Turn.NUMBER = number0+""+number1;
 	}
+	
 
 	/**
 	 * 

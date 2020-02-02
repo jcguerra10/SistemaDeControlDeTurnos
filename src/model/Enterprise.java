@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import exceptions.NotFoundException;
+
 public class Enterprise {
 
 	private String name;
@@ -25,11 +27,20 @@ public class Enterprise {
 
 	/**
 	 * 
-	 * @param searchClient
-	 * @param turn
+	 * @param id
+	 * @throws NotFoundException 
 	 */
-	public void MakeATurn(Client searchClient, String turn) {
-		
+	public void MakeATurn(String id) throws NotFoundException {
+		boolean e = false;
+		for (int i = 0; i < cli.size() && !e; i++) {
+			if (cli.get(i).getId().equals(id)) {
+				cli.get(i).makeATurn();
+				e = true;
+			}
+		}
+		if (e==false) {
+			throw new NotFoundException();
+		}
 	}
 
 	/**

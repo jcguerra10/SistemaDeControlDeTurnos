@@ -3,14 +3,16 @@ package ui;
 import java.util.Scanner;
 
 import exceptions.NoEssentialInfoException;
+import exceptions.NotFoundException;
 import model.Enterprise;
+import model.Turn;
 import model.Client;
 
 public class Main {
 
 	private static Scanner sc;
 
-	public static void main(String[] args) throws NoEssentialInfoException {
+	public static void main(String[] args) throws NoEssentialInfoException, InterruptedException {
 		Enterprise enterprise = new Enterprise();
 
 		sc = new Scanner(System.in);
@@ -30,7 +32,7 @@ public class Main {
 
 					System.out.println("ID Type");
 					String idType = sc.nextLine();
-					if (idType.equals("")) 
+					if (idType.equals(""))
 						throw new NoEssentialInfoException("IdType");
 					System.out.println("ID");
 					String id = sc.nextLine();
@@ -48,15 +50,28 @@ public class Main {
 					String cellPhone = sc.nextLine();
 					System.out.println("direction");
 					String direction = sc.nextLine();
-					
+
 					Client newClient = new Client(idType, id, name, lastName, cellPhone, direction);
 					enterprise.addNewClient(newClient);
-					
+
 				} catch (NoEssentialInfoException e) {
 					e.printStackTrace();
 				}
 
 				break;
+			case 2:
+				while (true) {
+					try {
+
+						System.out.println("Client ID");
+						String id = sc.nextLine();
+						System.out.println("Giving the turn: " + Turn.LETTER + "" + Turn.NUMBER);
+						enterprise.MakeATurn(id);
+
+					} catch (NotFoundException e) {
+
+					}
+				}
 			default:
 				break;
 			}
@@ -68,6 +83,7 @@ public class Main {
 		System.out.println("2. Add a Turn");
 		System.out.println("3. Attend a Client");
 		System.out.println("4. Exit");
+		System.out.println("5. Reset");
 	}
 
 }
