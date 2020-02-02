@@ -60,7 +60,6 @@ public class Main {
 
 				break;
 			case 2:
-				while (true) {
 					try {
 
 						System.out.println("Client ID");
@@ -71,7 +70,7 @@ public class Main {
 					} catch (NotFoundException e) {
 
 					}
-				}
+				break;
 			default:
 				break;
 			}
