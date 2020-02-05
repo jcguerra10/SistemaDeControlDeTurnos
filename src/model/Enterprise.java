@@ -2,7 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
+import exceptions.ExistingObjectException;
 import exceptions.NotFoundException;
+import exceptions.ActiveTurnException;
 
 public class Enterprise {
 
@@ -26,11 +28,13 @@ public class Enterprise {
 	}
 
 	/**
+	 * search a client to make a new turn for him
 	 * 
 	 * @param id
 	 * @throws NotFoundException 
+	 * @throws ActiveTurnException 
 	 */
-	public void MakeATurn(String id) throws NotFoundException {
+	public void MakeATurn(String id) throws NotFoundException, ActiveTurnException {
 		boolean e = false;
 		for (int i = 0; i < cli.size() && !e; i++) {
 			if (cli.get(i).getId().equals(id)) {
@@ -45,10 +49,31 @@ public class Enterprise {
 
 	/**
 	 * 
+	 * search a Client to mark his turn
+	 * @param j 
+	 * 
 	 * @param searchClient
 	 * @param attended
+	 * @throws NotFoundException 
 	 */
-	public void mark(Client searchClient, boolean attended) {
+	public void mark(String searchTurn, int j) throws NotFoundException {
+		boolean e = false;
+		for (int i = 0; i < cli.size() && !e; i++) {
+			if (cli.get(i).mark(searchTurn, j) == true) {				
+				e = true;
+			}
+		}
+		if (e==false) {
+			throw new NotFoundException();
+		}
+	}
+
+	public void verifyClient(String id) throws ExistingObjectException {
+		for (int i = 0; i < cli.size(); i++) {
+			if (cli.get(i).getId().equals(id)) {
+				throw new ExistingObjectException();
+			}
+		}
 		
 	}
 

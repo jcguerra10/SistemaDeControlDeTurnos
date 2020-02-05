@@ -2,8 +2,10 @@ package ui;
 
 import java.util.Scanner;
 
+import exceptions.ExistingObjectException;
 import exceptions.NoEssentialInfoException;
 import exceptions.NotFoundException;
+import exceptions.ActiveTurnException;
 import model.Enterprise;
 import model.Turn;
 import model.Client;
@@ -51,27 +53,51 @@ public class Main {
 					System.out.println("direction");
 					String direction = sc.nextLine();
 
+					enterprise.verifyClient(id);
+
 					Client newClient = new Client(idType, id, name, lastName, cellPhone, direction);
 					enterprise.addNewClient(newClient);
 
 				} catch (NoEssentialInfoException e) {
 					e.printStackTrace();
+				} catch (ExistingObjectException e) {
+					e.printStackTrace();
 				}
 
 				break;
 			case 2:
-					try {
-
-						System.out.println("Client ID");
-						String id = sc.nextLine();
-						System.out.println("Giving the turn: " + Turn.LETTER + "" + Turn.NUMBER);
-						enterprise.MakeATurn(id);
-
-					} catch (NotFoundException e) {
-
+				try {
+					System.out.println("Client ID");
+					String id = sc.nextLine();
+					System.out.println("Giving the turn: " + Turn.LETTER + "" + Turn.NUMBER);
+					enterprise.MakeATurn(id);
+				} catch (NotFoundException e) {
+					e.printStackTrace();
+				} catch (ActiveTurnException e) {
+					e.printStackTrace();
+				}
+				break;
+			case 3:
+				try {
+					System.out.println("Current Turn is: " + Turn.CURRENT_LETTER + "" + Turn.CURRENT_NUMBER);
+					System.out.println("The Client is here?");
+					System.out.println("1. yes");
+					System.out.println("2. No");
+					int clOp = Integer.parseInt(sc.nextLine());
+					if (clOp == 1) {
+						String searchTurn = Turn.CURRENT_LETTER + "" + Turn.CURRENT_NUMBER;
+						enterprise.mark(searchTurn, 1);
+					}else if (clOp == 2) {
+						String searchTurn = Turn.CURRENT_LETTER + "" + Turn.CURRENT_NUMBER;
+						enterprise.mark(searchTurn, 2);
 					}
+				} catch (NotFoundException e) {
+
+				}
+
 				break;
 			default:
+				System.out.println("Digito no esta en las opciones");
 				break;
 			}
 		}
@@ -82,7 +108,6 @@ public class Main {
 		System.out.println("2. Add a Turn");
 		System.out.println("3. Attend a Client");
 		System.out.println("4. Exit");
-		System.out.println("5. Reset");
 	}
 
 }

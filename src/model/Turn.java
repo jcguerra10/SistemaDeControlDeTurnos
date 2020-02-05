@@ -2,15 +2,19 @@ package model;
 
 public class Turn {
 
+	public static char CURRENT_LETTER = 'A';
+	public static String CURRENT_NUMBER = "00";
+	
 	public static char LETTER = 'A';
 	public static String NUMBER = "00";
 	private String turn;
 	private boolean attended;
+	private boolean active;
 
 	public Turn(String turn) {
 		super();
 		this.turn = turn;
-		this.attended = false;
+		this.active = true;
 	}
 
 	public String getTurn() {
@@ -28,5 +32,16 @@ public class Turn {
 	public void setAttended(boolean attended) {
 		this.attended = attended;
 	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
+	
+	
 
 }

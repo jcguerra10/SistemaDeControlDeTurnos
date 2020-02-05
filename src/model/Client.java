@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import exceptions.ActiveTurnException;
+
 public class Client {
 
 	private String idType;
@@ -90,8 +92,14 @@ public class Client {
 	}
 
 	/**
+	 * assign a new turn
+	 * @throws ActiveTurnException 
+	 * 
 	 */
-	public void makeATurn() {
+	public void makeATurn() throws ActiveTurnException {
+		if (shifts.isEmpty() == false && shifts.get(shifts.size()-1).isActive() == true) {
+			throw new ActiveTurnException();
+		}
 		shifts.add(new Turn(Turn.LETTER+""+Turn.NUMBER));
 		String[] sp = Turn.NUMBER.split("");
 		int number0 = Integer.parseInt(sp[0]);
@@ -117,11 +125,49 @@ public class Client {
 	
 
 	/**
+	 * change the attribute Attended to true
+	 * true means that the client is attended
+	 * false means that the client isn't in the place
 	 * 
-	 * @param attended
+	 * @param searchTurn 
+	 * @param j 
 	 */
-	public void mark(boolean attended) {
-
+	public boolean mark(String searchTurn, int j) {
+		boolean e = false;
+		for (int i = 0; i < shifts.size(); i++) {
+			if (shifts.get(i).getTurn().equals(searchTurn)) {
+				if (j == 1) {
+					shifts.get(i).setAttended(true);
+					shifts.get(i).setActive(false);
+				}else {
+					shifts.get(i).setAttended(false);
+					shifts.get(i).setActive(false);
+				}
+							
+				String[] sp = Turn.CURRENT_NUMBER.split("");
+				int number0 = Integer.parseInt(sp[0]);
+				int number1 = Integer.parseInt(sp[1]);
+				if (number1 == 9) {
+					number1 = 0;
+					if (number0 == 9) {
+						number0 = 0;
+						if (Turn.CURRENT_LETTER == 'Z') {
+							Turn.CURRENT_LETTER = 'A';
+						}else {
+							Turn.CURRENT_LETTER += 1;
+						}
+					}else {
+						number0 += 1;
+					}
+				}else {
+					number1 += 1;
+				}
+				
+				Turn.CURRENT_NUMBER = number0+""+number1;
+				e = true;
+			}
+		}		
+		return e;
 	}
 
 }
