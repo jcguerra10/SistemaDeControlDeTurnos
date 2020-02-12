@@ -100,7 +100,7 @@ public class Client {
 		if (shifts.isEmpty() == false && shifts.get(shifts.size()-1).isActive() == true) {
 			throw new ActiveTurnException();
 		}
-		shifts.add(new Turn(Turn.LETTER+""+Turn.NUMBER));
+		shifts.add(new Turn(Turn.LETTER+""+Turn.NUMBER, Turn.POSITION));
 		String[] sp = Turn.NUMBER.split("");
 		int number0 = Integer.parseInt(sp[0]);
 		int number1 = Integer.parseInt(sp[1]);
@@ -119,7 +119,7 @@ public class Client {
 		}else {
 			number1 += 1;
 		}
-		
+		Turn.POSITION += 1;
 		Turn.NUMBER = number0+""+number1;
 	}
 	
@@ -135,15 +135,13 @@ public class Client {
 	public boolean mark(String searchTurn, int j) {
 		boolean e = false;
 		for (int i = 0; i < shifts.size(); i++) {
-			if (shifts.get(i).getTurn().equals(searchTurn)) {
+			if (shifts.get(i).getTurn().equals(searchTurn) && shifts.get(i).getPosition() == Turn.CURRENT_POSITION) {
 				if (j == 1) {
 					shifts.get(i).setAttended(true);
-					shifts.get(i).setActive(false);
 				}else {
-					shifts.get(i).setAttended(false);
-					shifts.get(i).setActive(false);
+					shifts.get(i).setAttended(false);					
 				}
-							
+				shifts.get(i).setActive(false);
 				String[] sp = Turn.CURRENT_NUMBER.split("");
 				int number0 = Integer.parseInt(sp[0]);
 				int number1 = Integer.parseInt(sp[1]);
@@ -162,7 +160,7 @@ public class Client {
 				}else {
 					number1 += 1;
 				}
-				
+				Turn.CURRENT_POSITION += 1;
 				Turn.CURRENT_NUMBER = number0+""+number1;
 				e = true;
 			}

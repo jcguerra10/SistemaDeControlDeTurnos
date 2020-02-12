@@ -22,8 +22,15 @@ public class Enterprise {
 	 * add a new client into an ArrayList
 	 * 
 	 * @param newClient
+	 * @throws ExistingObjectException 
 	 */
-	public void addNewClient(Client newClient) {
+	public void addNewClient(Client newClient) throws ExistingObjectException {
+		for (int i = 0; i < cli.size(); i++) {
+			if (newClient.getId().equals(cli.get(i).getId())) {
+				throw new ExistingObjectException();
+			}
+		}
+		
 		cli.add(newClient);
 	}
 

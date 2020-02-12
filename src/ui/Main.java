@@ -14,7 +14,7 @@ public class Main {
 
 	private static Scanner sc;
 
-	public static void main(String[] args) throws NoEssentialInfoException, InterruptedException {
+	public static void main(String[] args) {
 		Enterprise enterprise = new Enterprise();
 
 		sc = new Scanner(System.in);
@@ -58,10 +58,10 @@ public class Main {
 					Client newClient = new Client(idType, id, name, lastName, cellPhone, direction);
 					enterprise.addNewClient(newClient);
 
-				} catch (NoEssentialInfoException e) {
-					e.printStackTrace();
+				} catch (NoEssentialInfoException e) {		
+					System.out.println(e.getMessage());
 				} catch (ExistingObjectException e) {
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 
 				break;
@@ -69,17 +69,17 @@ public class Main {
 				try {
 					System.out.println("Client ID");
 					String id = sc.nextLine();
-					System.out.println("Giving the turn: " + Turn.LETTER + "" + Turn.NUMBER);
+					System.out.println("Giving the turn: " + Turn.LETTER + "" + Turn.NUMBER +" Position: "+ Turn.POSITION);
 					enterprise.MakeATurn(id);
 				} catch (NotFoundException e) {
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				} catch (ActiveTurnException e) {
-					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 				break;
 			case 3:
 				try {
-					System.out.println("Current Turn is: " + Turn.CURRENT_LETTER + "" + Turn.CURRENT_NUMBER);
+					System.out.println("Current Turn is: " + Turn.CURRENT_LETTER + "" + Turn.CURRENT_NUMBER+" Position: "+Turn.CURRENT_POSITION);
 					System.out.println("The Client is here?");
 					System.out.println("1. yes");
 					System.out.println("2. No");
@@ -92,12 +92,12 @@ public class Main {
 						enterprise.mark(searchTurn, 2);
 					}
 				} catch (NotFoundException e) {
-
+					System.out.println(e.getMessage());
 				}
 
 				break;
 			default:
-				System.out.println("Digito no esta en las opciones");
+				System.out.println("Incorrect Option");
 				break;
 			}
 		}

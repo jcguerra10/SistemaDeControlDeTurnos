@@ -4,16 +4,20 @@ public class Turn {
 
 	public static char CURRENT_LETTER = 'A';
 	public static String CURRENT_NUMBER = "00";
-	
+	public static int POSITION = 0;
+	public static int CURRENT_POSITION = 0;
 	public static char LETTER = 'A';
 	public static String NUMBER = "00";
+	
 	private String turn;
+	private int position;
 	private boolean attended;
 	private boolean active;
 
-	public Turn(String turn) {
+	public Turn(String turn, int position) {
 		super();
 		this.turn = turn;
+		this.position = position;
 		this.active = true;
 	}
 
@@ -40,8 +44,13 @@ public class Turn {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
-	
-	
 
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+	
 }
