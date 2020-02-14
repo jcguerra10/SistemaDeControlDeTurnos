@@ -51,9 +51,7 @@ public class Main {
 					System.out.println("cellphone");
 					String cellPhone = sc.nextLine();
 					System.out.println("direction");
-					String direction = sc.nextLine();
-
-					enterprise.verifyClient(id);
+					String direction = sc.nextLine();		
 
 					Client newClient = new Client(idType, id, name, lastName, cellPhone, direction);
 					enterprise.addNewClient(newClient);

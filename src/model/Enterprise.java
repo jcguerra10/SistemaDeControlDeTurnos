@@ -55,10 +55,9 @@ public class Enterprise {
 	}
 
 	/**
-	 * 
 	 * search a Client to mark his turn
-	 * @param j 
 	 * 
+	 * @param j 	 
 	 * @param searchClient
 	 * @param attended
 	 * @throws NotFoundException 
@@ -73,15 +72,6 @@ public class Enterprise {
 		if (e==false) {
 			throw new NotFoundException();
 		}
-	}
-
-	public void verifyClient(String id) throws ExistingObjectException {
-		for (int i = 0; i < cli.size(); i++) {
-			if (cli.get(i).getId().equals(id)) {
-				throw new ExistingObjectException();
-			}
-		}
-		
 	}
 
 }
