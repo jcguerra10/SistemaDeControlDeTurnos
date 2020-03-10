@@ -74,5 +74,16 @@ public class Enterprise implements Serializable{
 			throw new NotFoundException();
 		}
 	}
+	/*
+	 * make a report of all the clients
+	 * 
+	 */
+	public String report() {
+		String msg = "";
+		for (int i = 0; i < cli.size(); i++) {
+			msg += cli.get(i).report();
+		}
+		return msg;
+	}
 
 }

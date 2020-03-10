@@ -168,5 +168,19 @@ public class Client implements Serializable{
 		}		
 		return e;
 	}
+	
+	/*
+	 * get all the shifts of the client and make
+	 * the report
+	 */
+	public String report() {
+		String msg = "";
+		msg += getId()+" "+getLastName()+" "+getName() +"\n";
+		msg += "Shifts: \n";
+		for (int i = 0; i < shifts.size(); i++) {
+			msg += "\t"+shifts.get(i)+"\n";
+		}
+		return msg;
+	}
 
 }

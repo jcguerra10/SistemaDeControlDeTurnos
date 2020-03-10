@@ -6,8 +6,8 @@ public class Turn implements Serializable{
 
 	public static char CURRENT_LETTER = 'A';
 	public static String CURRENT_NUMBER = "00";
-	public static int POSITION = 0;
 	public static int CURRENT_POSITION = 0;
+	public static int POSITION = 0;
 	public static char LETTER = 'A';
 	public static String NUMBER = "00";
 	
@@ -64,6 +64,26 @@ public class Turn implements Serializable{
 	public void setTot(TypeOfTurn tot) {
 		this.tot = tot;
 	}
+	
+	@Override
+	public String toString() {
+		String msg = "";
+		msg += getTurn()+" "+getPosition() +" ";
+		if (isActive() == false) {
+			if (isAttended() == true) {
+				msg += "No esta activo y fue atendido";
+			}else {
+				msg += "No esta activo y no estaba cuando se llamo";
+			}
+		}else {
+			msg += "El turno esta activo";
+		}
+		if (tot != null) {
+			msg += "Type: "+ tot.getName() + " " + tot.getDuration();
+		}
+		return msg;
+	}
+	
 	
 	
 }
