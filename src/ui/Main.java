@@ -1,7 +1,13 @@
 package ui;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
-
 import exceptions.ExistingObjectException;
 import exceptions.NoEssentialInfoException;
 import exceptions.NotFoundException;
@@ -12,11 +18,12 @@ import model.Turn;
 import model.Client;
 
 public class Main {
-
+	private static final String ROUTE = "data/tot.dat"; 
 	private static Scanner sc;
+	private static Enterprise enterprise;
 
 	public static void main(String[] args) {
-		Enterprise enterprise = new Enterprise();
+		load();
 		Time time = new Time();
 		sc = new Scanner(System.in);
 
@@ -29,6 +36,7 @@ public class Main {
 			switch (op) {
 			case 4:
 				System.out.println("Bye, Bye");
+				save();
 				exit = true;
 				break;
 			case 1:
@@ -107,7 +115,38 @@ public class Main {
 		System.out.println("1. Create a new Client");
 		System.out.println("2. Add a Turn");
 		System.out.println("3. Attend a Client");
-		System.out.println("4. Exit");
+		System.out.println("4. Exit and Save");
+	}
+	
+	private static void save() {
+		try {
+			File f = new File("data/tot.dat");
+			if (f.exists() == false) {
+				f.createNewFile();
+			}			
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ROUTE));
+			oos.writeObject(enterprise);
+			oos.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	private static void load() {
+		try {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ROUTE));
+			enterprise = (Enterprise) ois.readObject();
+			ois.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("No se encuentra el archivo o es primera vez que se ejecuta el programa");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {			
+			e.printStackTrace();
+		}
 	}
 
 }

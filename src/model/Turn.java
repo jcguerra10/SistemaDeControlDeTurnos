@@ -1,6 +1,8 @@
 package model;
 
-public class Turn {
+import java.io.Serializable;
+
+public class Turn implements Serializable{
 
 	public static char CURRENT_LETTER = 'A';
 	public static String CURRENT_NUMBER = "00";
@@ -13,12 +15,14 @@ public class Turn {
 	private int position;
 	private boolean attended;
 	private boolean active;
+	
+	private TypeOfTurn tot;
 
 	public Turn(String turn, int position) {
 		super();
 		this.turn = turn;
 		this.position = position;
-		this.active = true;		
+		this.active = true;
 	}
 
 	public String getTurn() {
@@ -52,5 +56,14 @@ public class Turn {
 	public void setPosition(int position) {
 		this.position = position;
 	}
+
+	public TypeOfTurn getTot() {
+		return tot;
+	}
+
+	public void setTot(TypeOfTurn tot) {
+		this.tot = tot;
+	}
+	
 	
 }

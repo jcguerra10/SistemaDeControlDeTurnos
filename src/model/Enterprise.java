@@ -1,12 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import exceptions.ExistingObjectException;
 import exceptions.NotFoundException;
 import exceptions.ActiveTurnException;
 
-public class Enterprise {
+public class Enterprise implements Serializable{
 
 	private String name;
 

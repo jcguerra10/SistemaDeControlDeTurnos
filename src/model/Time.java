@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Date;
 
-public class Time {
+public class Time implements Serializable{
 	
 	private Calendar c;
 	private int hour;
