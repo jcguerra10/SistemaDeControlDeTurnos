@@ -18,7 +18,7 @@ public class Turn {
 		super();
 		this.turn = turn;
 		this.position = position;
-		this.active = true;
+		this.active = true;		
 	}
 
 	public String getTurn() {

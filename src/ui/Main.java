@@ -7,6 +7,7 @@ import exceptions.NoEssentialInfoException;
 import exceptions.NotFoundException;
 import exceptions.ActiveTurnException;
 import model.Enterprise;
+import model.Time;
 import model.Turn;
 import model.Client;
 
@@ -16,12 +17,13 @@ public class Main {
 
 	public static void main(String[] args) {
 		Enterprise enterprise = new Enterprise();
-
+		Time time = new Time();
 		sc = new Scanner(System.in);
 
 		int op = 0;
 		boolean exit = false;
 		while (!exit) {
+			System.out.println(time.getAll());
 			menu();
 			op = Integer.parseInt(sc.nextLine());
 			switch (op) {
