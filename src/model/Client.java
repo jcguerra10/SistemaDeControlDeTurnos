@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import exceptions.ActiveTurnException;
 import exceptions.SuspendedExcepcion;
 
-public class Client implements Serializable {
+public class Client implements Serializable, Comparable<Client> {
 
 	private String idType;
 	private String id;
@@ -125,7 +125,7 @@ public class Client implements Serializable {
 			if (isNotSuspended(createDate) == true) {
 				suspended = false;
 				suspendedSince = "";
-			}else {
+			} else {
 				throw new SuspendedExcepcion(createDate);
 			}
 		}
@@ -227,5 +227,18 @@ public class Client implements Serializable {
 	 */
 	public void addShfit(Turn newshift) {
 		shifts.add(newshift);
+	}
+
+	@Override
+	public int compareTo(Client o) {
+		int comp = 0;
+		if (o.getId().compareTo(getId()) < 0) {
+			comp = 1;
+		} else if (o.getId().compareTo(getId()) < 0) {
+			comp = -1;
+		} else {
+			comp = 0;
+		}
+		return comp;
 	}
 }

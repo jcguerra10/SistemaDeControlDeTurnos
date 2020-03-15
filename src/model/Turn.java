@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-public class Turn implements Serializable{
+public class Turn implements Serializable {
 
 	public static char CURRENT_LETTER = 'A';
 	public static String CURRENT_NUMBER = "00";
@@ -10,15 +10,16 @@ public class Turn implements Serializable{
 	public static int POSITION = 0;
 	public static char LETTER = 'A';
 	public static String NUMBER = "00";
-	
+
 	private String turn;
 	private int position;
 	private boolean attended;
 	private boolean active;
-	
+	private String timeOfCreation;
+
 	private TypeOfTurn tot;
 
-	public Turn(String turn, int position) {
+	public Turn(String turn, int position, String timeString) {
 		super();
 		this.turn = turn;
 		this.position = position;
@@ -57,6 +58,14 @@ public class Turn implements Serializable{
 		this.position = position;
 	}
 
+	public String getTimeOfCreation() {
+		return timeOfCreation;
+	}
+
+	public void setTimeOfCreation(String timeOfCreation) {
+		this.timeOfCreation = timeOfCreation;
+	}
+
 	public TypeOfTurn getTot() {
 		return tot;
 	}
@@ -64,7 +73,7 @@ public class Turn implements Serializable{
 	public void setTot(TypeOfTurn tot) {
 		this.tot = tot;
 	}
-	
+
 	public static void ChangeTurn() {
 		String[] sp = Turn.NUMBER.split("");
 		int number0 = Integer.parseInt(sp[0]);
@@ -75,19 +84,19 @@ public class Turn implements Serializable{
 				number0 = 0;
 				if (Turn.LETTER == 'Z') {
 					Turn.LETTER = 'A';
-				}else {
+				} else {
 					Turn.LETTER += 1;
 				}
-			}else {
+			} else {
 				number0 += 1;
 			}
-		}else {
+		} else {
 			number1 += 1;
 		}
 		Turn.POSITION += 1;
-		Turn.NUMBER = number0+""+number1;
+		Turn.NUMBER = number0 + "" + number1;
 	}
-	
+
 	public static void changeCurrentTurn() {
 		String[] sp = Turn.CURRENT_NUMBER.split("");
 		int number0 = Integer.parseInt(sp[0]);
@@ -98,38 +107,36 @@ public class Turn implements Serializable{
 				number0 = 0;
 				if (Turn.CURRENT_LETTER == 'Z') {
 					Turn.CURRENT_LETTER = 'A';
-				}else {
+				} else {
 					Turn.CURRENT_LETTER += 1;
 				}
-			}else {
+			} else {
 				number0 += 1;
 			}
-		}else {
+		} else {
 			number1 += 1;
 		}
 		Turn.CURRENT_POSITION += 1;
-		Turn.CURRENT_NUMBER = number0+""+number1;
+		Turn.CURRENT_NUMBER = number0 + "" + number1;
 	}
-	
+
 	@Override
 	public String toString() {
 		String msg = "";
-		msg += getTurn()+" "+getPosition() +" ";
+		msg += getTurn() + " " + getPosition() + " ";
 		if (isActive() == false) {
 			if (isAttended() == true) {
 				msg += "No esta activo y fue atendido";
-			}else {
+			} else {
 				msg += "No esta activo y no estaba cuando se llamo";
 			}
-		}else {
+		} else {
 			msg += "El turno esta activo";
 		}
 		if (tot != null) {
-			msg += "    Type: "+ tot.getName() + " " + tot.getDuration();
+			msg += "    Type: " + tot.getName() + " " + tot.getDuration();
 		}
 		return msg;
 	}
-	
-	
-	
+
 }

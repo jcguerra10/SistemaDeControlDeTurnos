@@ -45,29 +45,29 @@ public class Time implements Serializable{
 		String mesString = "";
 		int mes = c.get(Calendar.MONTH);
 		switch (mes) {
-        case 1:  mesString = "Enero";
+        case 0:  mesString = "Enero";
                  break;
-        case 2:  mesString  = "Febrero";
+        case 1:  mesString  = "Febrero";
                  break;
-        case 3:  mesString = "Marzo";
+        case 2:  mesString = "Marzo";
                  break;
-        case 4:  mesString = "Abril";
+        case 3:  mesString = "Abril";
                  break;
-        case 5:  mesString = "Mayo";
+        case 4:  mesString = "Mayo";
                  break;
-        case 6:  mesString = "Junio";
+        case 5:  mesString = "Junio";
                  break;
-        case 7:  mesString = "Julio";
+        case 6:  mesString = "Julio";
                  break;
-        case 8:  mesString = "Agosto";
+        case 7:  mesString = "Agosto";
                  break;
-        case 9:  mesString = "Septiembre";
+        case 8:  mesString = "Septiembre";
                  break;
-        case 10: mesString = "Octubre";
+        case 9: mesString = "Octubre";
                  break;
-        case 11: mesString = "Noviembre";
+        case 10: mesString = "Noviembre";
                  break;
-        case 12: mesString = "Diciembre";
+        case 11: mesString = "Diciembre";
                  break;
         default: mesString = "Invalid month";
                  break;
@@ -98,6 +98,10 @@ public class Time implements Serializable{
 	
 	public String date() {
 		return day + ":" +monthInt+":"+year+":"+ hour + ":" + minutes + ":" + seconds;	
+	}
+	
+	public String toCompare() {
+		return year + ":" +monthInt+":"+day+":"+ hour + ":" + minutes + ":" + seconds;
 	}
 
 }

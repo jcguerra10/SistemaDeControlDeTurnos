@@ -39,6 +39,8 @@ public class Main {
 			System.out.println(time.getAll());
 			menu();
 			op = Integer.parseInt(sc.nextLine());
+			long t1;
+			long t2;
 			switch (op) {
 			case 0:
 				System.out.println("Bye, Bye");
@@ -46,8 +48,9 @@ public class Main {
 				exit = true;
 				break;
 			case 1:
+				t1 = System.currentTimeMillis();
 				try {
-
+					
 					System.out.println("ID Type");
 					String idType = sc.nextLine();
 					if (idType.equals(""))
@@ -71,15 +74,18 @@ public class Main {
 
 					Client newClient = new Client(idType, id, name, lastName, cellPhone, direction);
 					enterprise.addNewClient(newClient);
-
+					
 				} catch (NoEssentialInfoException e) {
 					System.out.println(e.getMessage());
 				} catch (ExistingObjectException e) {
 					System.out.println(e.getMessage());
 				}
-
+				t2 = System.currentTimeMillis();
+				
+				System.out.println(t2 - t1);
 				break;
 			case 2:
+				t1 = System.currentTimeMillis();
 				try {
 					System.out.println("Client ID");
 					String id = sc.nextLine();
@@ -90,7 +96,7 @@ public class Main {
 					String nameTurn = sc.nextLine();
 					System.out.println("Duration");
 					double d = Double.parseDouble(sc.nextLine());
-					enterprise.MakeATurn(id, nameTurn, d, time.date());
+					enterprise.MakeATurn(id, nameTurn, d, time.toCompare());
 				} catch (NotFoundException e) {
 					System.out.println(e.getMessage());
 				} catch (ActiveTurnException e) {
@@ -100,8 +106,11 @@ public class Main {
 				} catch (SuspendedExcepcion e) {
 					System.out.println(e.getMessage());
 				}
+				t2 = System.currentTimeMillis();
+				System.out.println(t2-t1);
 				break;
 			case 3:
+				t1 = System.currentTimeMillis();
 				try {
 					System.out.println("Current Turn is: " + Turn.CURRENT_LETTER + "" + Turn.CURRENT_NUMBER
 							+ " Position: " + Turn.CURRENT_POSITION);
@@ -119,9 +128,15 @@ public class Main {
 				} catch (NotFoundException e) {
 					System.out.println(e.getMessage());
 				}
+				t2 = System.currentTimeMillis();
+				System.out.println(t2-t1);
 				break;
 			case 4:
-				System.out.println(enterprise.report());
+				try {
+					System.out.println(enterprise.report());
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				break;
 			case 5:
 				try {					
@@ -138,7 +153,15 @@ public class Main {
 				} catch (NotFoundException e) {
 					System.out.println(e.getMessage());
 				}
+			case 6:
+				time.refresh();
+				System.out.println();
+				System.out.println(time.getAll());
+				System.out.println();
+				break;
+			case 7:
 				
+				break;
 			default:
 				System.out.println("Incorrect Option");
 				break;
@@ -152,6 +175,7 @@ public class Main {
 		System.out.println("3. Attend a Client");
 		System.out.println("4. Show report");
 		System.out.println("5. Give an existing Shift to a Client");
+		System.out.println("6. Show Date");
 		System.out.println("0. Exit and Save");
 	}
 
