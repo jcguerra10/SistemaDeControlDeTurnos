@@ -65,6 +65,52 @@ public class Turn implements Serializable{
 		this.tot = tot;
 	}
 	
+	public static void ChangeTurn() {
+		String[] sp = Turn.NUMBER.split("");
+		int number0 = Integer.parseInt(sp[0]);
+		int number1 = Integer.parseInt(sp[1]);
+		if (number1 == 9) {
+			number1 = 0;
+			if (number0 == 9) {
+				number0 = 0;
+				if (Turn.LETTER == 'Z') {
+					Turn.LETTER = 'A';
+				}else {
+					Turn.LETTER += 1;
+				}
+			}else {
+				number0 += 1;
+			}
+		}else {
+			number1 += 1;
+		}
+		Turn.POSITION += 1;
+		Turn.NUMBER = number0+""+number1;
+	}
+	
+	public static void changeCurrentTurn() {
+		String[] sp = Turn.CURRENT_NUMBER.split("");
+		int number0 = Integer.parseInt(sp[0]);
+		int number1 = Integer.parseInt(sp[1]);
+		if (number1 == 9) {
+			number1 = 0;
+			if (number0 == 9) {
+				number0 = 0;
+				if (Turn.CURRENT_LETTER == 'Z') {
+					Turn.CURRENT_LETTER = 'A';
+				}else {
+					Turn.CURRENT_LETTER += 1;
+				}
+			}else {
+				number0 += 1;
+			}
+		}else {
+			number1 += 1;
+		}
+		Turn.CURRENT_POSITION += 1;
+		Turn.CURRENT_NUMBER = number0+""+number1;
+	}
+	
 	@Override
 	public String toString() {
 		String msg = "";
@@ -79,7 +125,7 @@ public class Turn implements Serializable{
 			msg += "El turno esta activo";
 		}
 		if (tot != null) {
-			msg += "Type: "+ tot.getName() + " " + tot.getDuration();
+			msg += "    Type: "+ tot.getName() + " " + tot.getDuration();
 		}
 		return msg;
 	}

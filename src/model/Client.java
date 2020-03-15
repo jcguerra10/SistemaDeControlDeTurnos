@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import exceptions.ActiveTurnException;
+import exceptions.SuspendedExcepcion;
 
-public class Client implements Serializable{
+public class Client implements Serializable {
 
 	private String idType;
 	private String id;
@@ -13,6 +14,8 @@ public class Client implements Serializable{
 	private String lastName;
 	private String cellphone;
 	private String direction;
+	private boolean suspended;
+	private String suspendedSince;
 
 	private ArrayList<Turn> shifts;
 
@@ -33,6 +36,8 @@ public class Client implements Serializable{
 		this.lastName = lastName;
 		this.cellphone = cellphone;
 		this.direction = direction;
+		this.suspended = false;
+		this.suspendedSince = "";
 		shifts = new ArrayList<Turn>();
 	}
 
@@ -92,95 +97,135 @@ public class Client implements Serializable{
 		this.shifts = shifts;
 	}
 
-	/**
-	 * assign a new turn
-	 * @throws ActiveTurnException 
-	 * 
-	 */
-	public void makeATurn() throws ActiveTurnException {
-		if (shifts.isEmpty() == false && shifts.get(shifts.size()-1).isActive() == true) {
-			throw new ActiveTurnException();
-		}
-		shifts.add(new Turn(Turn.LETTER+""+Turn.NUMBER, Turn.POSITION));
-		String[] sp = Turn.NUMBER.split("");
-		int number0 = Integer.parseInt(sp[0]);
-		int number1 = Integer.parseInt(sp[1]);
-		if (number1 == 9) {
-			number1 = 0;
-			if (number0 == 9) {
-				number0 = 0;
-				if (Turn.LETTER == 'Z') {
-					Turn.LETTER = 'A';
-				}else {
-					Turn.LETTER += 1;
-				}
-			}else {
-				number0 += 1;
-			}
-		}else {
-			number1 += 1;
-		}
-		Turn.POSITION += 1;
-		Turn.NUMBER = number0+""+number1;
+	public String getSuspendedSince() {
+		return suspendedSince;
 	}
-	
+
+	public void setSuspendedSince(String suspendedSince) {
+		this.suspendedSince = suspendedSince;
+	}
+
+	public void setSuspended(boolean suspended) {
+		this.suspended = suspended;
+	}
 
 	/**
-	 * change the attribute Attended to true
-	 * true means that the client is attended
+	 * assign a new turn
+	 * 
+	 * @param newTurn
+	 * @throws ActiveTurnException
+	 * @throws SuspendedExcepcion
+	 * 
+	 */
+	public void makeATurn(Turn newTurn, String createDate) throws ActiveTurnException, SuspendedExcepcion {
+		if (shifts.isEmpty() == false && shifts.get(shifts.size() - 1).isActive() == true) {
+			throw new ActiveTurnException();
+		}
+		if (suspended == true) {
+			if (isNotSuspended(createDate) == true) {
+				suspended = false;
+				suspendedSince = "";
+			}else {
+				throw new SuspendedExcepcion(createDate);
+			}
+		}
+		shifts.add(newTurn);
+		Turn.ChangeTurn();
+	}
+
+	/**
+	 * verify if the Client is Suspended or not
+	 */
+	private boolean isSuspended() {
+		boolean s = false;
+		if (shifts.size() >= 2) {
+			int i = shifts.size() - 2;
+			if (shifts.get(i).isActive() == false && shifts.get(i).isAttended() == false) {
+				if (shifts.get(i + 1).isActive() == false && shifts.get(i + 1).isAttended() == false) {
+					s = true;
+				}
+			}
+		}
+
+		return s;
+	}
+
+	/**
+	 * verify if the Client still suspended
+	 * 
+	 * @param fechaAct
+	 * @return
+	 */
+	public boolean isNotSuspended(String fechaAct) {
+		boolean b = false;
+		if (!suspendedSince.equals("")) {
+			String[] f1 = fechaAct.split(":");
+			String[] f2 = suspendedSince.split(":");
+			if (Integer.parseInt(f2[2]) <= Integer.parseInt(f1[2])) {
+				if (Integer.parseInt(f2[1]) <= Integer.parseInt(f1[1])) {
+					if (Integer.parseInt(f2[0]) + 2 == Integer.parseInt(f1[0])) {
+						if (Integer.parseInt(f2[3]) <= Integer.parseInt(f1[3])) {
+							if (Integer.parseInt(f2[4]) <= Integer.parseInt(f1[4])) {
+								if (Integer.parseInt(f2[5]) <= Integer.parseInt(f1[5])) {
+									b = true;
+								}
+							}
+						}
+					} else if (Integer.parseInt(f2[0]) + 2 < Integer.parseInt(f1[0])) {
+						b = true;
+					}
+				}
+			}
+		}
+		return b;
+	}
+
+	/**
+	 * change the attribute Attended to true true means that the client is attended
 	 * false means that the client isn't in the place
 	 * 
-	 * @param searchTurn 
-	 * @param j 
+	 * @param searchTurn
+	 * @param j
+	 * @param date
 	 */
-	public boolean mark(String searchTurn, int j) {
+	public boolean mark(String searchTurn, int j, String date) {
 		boolean e = false;
 		for (int i = 0; i < shifts.size(); i++) {
 			if (shifts.get(i).getTurn().equals(searchTurn) && shifts.get(i).getPosition() == Turn.CURRENT_POSITION) {
+				shifts.get(i).setActive(false);
 				if (j == 1) {
 					shifts.get(i).setAttended(true);
-				}else {
-					shifts.get(i).setAttended(false);					
-				}
-				shifts.get(i).setActive(false);
-				String[] sp = Turn.CURRENT_NUMBER.split("");
-				int number0 = Integer.parseInt(sp[0]);
-				int number1 = Integer.parseInt(sp[1]);
-				if (number1 == 9) {
-					number1 = 0;
-					if (number0 == 9) {
-						number0 = 0;
-						if (Turn.CURRENT_LETTER == 'Z') {
-							Turn.CURRENT_LETTER = 'A';
-						}else {
-							Turn.CURRENT_LETTER += 1;
-						}
-					}else {
-						number0 += 1;
+				} else {
+					shifts.get(i).setAttended(false);
+					if (isSuspended() == true) {
+						suspended = true;
+						suspendedSince = date;
 					}
-				}else {
-					number1 += 1;
 				}
-				Turn.CURRENT_POSITION += 1;
-				Turn.CURRENT_NUMBER = number0+""+number1;
+				Turn.changeCurrentTurn();
 				e = true;
 			}
-		}		
+		}
 		return e;
 	}
-	
-	/*
-	 * get all the shifts of the client and make
-	 * the report
+
+	/**
+	 * get all the shifts of the client and make the report
 	 */
 	public String report() {
 		String msg = "";
-		msg += getId()+" "+getLastName()+" "+getName() +"\n";
+		msg += getId() + " " + getLastName() + " " + getName() + "\n";
 		msg += "Shifts: \n";
 		for (int i = 0; i < shifts.size(); i++) {
-			msg += "\t"+shifts.get(i)+"\n";
+			msg += "\t" + shifts.get(i) + "\n";
 		}
 		return msg;
 	}
 
+	/**
+	 * add a Turn to the ArrayList
+	 */
+	public void addShfit(Turn newshift) {
+		shifts.add(newshift);
+	}
 }

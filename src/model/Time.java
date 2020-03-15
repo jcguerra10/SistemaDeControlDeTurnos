@@ -13,6 +13,7 @@ public class Time implements Serializable{
 	private int seconds;
 	private int day;
 	private String month;
+	private int monthInt;
 	private int year;
 	
 	public Time() {		
@@ -22,8 +23,11 @@ public class Time implements Serializable{
 		this.seconds = setSeconds();
 		this.day = setDay();
 		this.month = setMonth();
+		this.monthInt = setMonthInt();
 		this.year = setYear();
-		System.out.println(getAll());
+	}
+	private int setMonthInt() {
+		return c.get(Calendar.MONTH);
 	}
 	private int setSeconds() {
 		return c.get(Calendar.SECOND);
@@ -75,22 +79,25 @@ public class Time implements Serializable{
 	}
 	
 	public void refresh() {
-		setSeconds();
-		setMinutes();
-		setHour();
-		setDay();
-		setMonth();
-		setYear();
+		c = new GregorianCalendar();
+		seconds = setSeconds();
+		minutes = setMinutes();
+		hour = setHour();
+		day = setDay();
+		month = setMonth();
+		year = setYear();
 	}
 	
 	public String getActualTime() {
-		refresh();
 		return hour + ":" + minutes + ":" + seconds;
 	}
 	
-	public String getAll() {
-		refresh();
+	public String getAll() {	
 		return day + " : " +month+" : "+year+" : "+ hour + ":" + minutes + ":" + seconds;
+	}
+	
+	public String date() {
+		return day + ":" +monthInt+":"+year+":"+ hour + ":" + minutes + ":" + seconds;	
 	}
 
 }

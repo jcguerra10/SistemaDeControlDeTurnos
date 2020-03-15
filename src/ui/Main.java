@@ -8,9 +8,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
+
+import org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.UpperCaseConversion;
+
 import exceptions.ExistingObjectException;
 import exceptions.NoEssentialInfoException;
 import exceptions.NotFoundException;
+import exceptions.SuspendedExcepcion;
+import exceptions.TypingWrongException;
 import exceptions.ActiveTurnException;
 import model.Enterprise;
 import model.Time;
@@ -30,6 +35,7 @@ public class Main {
 		int op;
 		boolean exit = false;
 		while (!exit) {
+			time.refresh();
 			System.out.println(time.getAll());
 			menu();
 			op = Integer.parseInt(sc.nextLine());
@@ -79,10 +85,19 @@ public class Main {
 					String id = sc.nextLine();
 					System.out.println(
 							"Giving the turn: " + Turn.LETTER + "" + Turn.NUMBER + " Position: " + Turn.POSITION);
-					enterprise.MakeATurn(id);
+					System.out.println("Type of Turn");
+					System.out.println("Name");
+					String nameTurn = sc.nextLine();
+					System.out.println("Duration");
+					double d = Double.parseDouble(sc.nextLine());
+					enterprise.MakeATurn(id, nameTurn, d, time.date());
 				} catch (NotFoundException e) {
 					System.out.println(e.getMessage());
 				} catch (ActiveTurnException e) {
+					System.out.println(e.getMessage());
+				} catch (NoEssentialInfoException e) {
+					System.out.println(e.getMessage());
+				} catch (SuspendedExcepcion e) {
 					System.out.println(e.getMessage());
 				}
 				break;
@@ -96,10 +111,10 @@ public class Main {
 					int clOp = Integer.parseInt(sc.nextLine());
 					if (clOp == 1) {
 						String searchTurn = Turn.CURRENT_LETTER + "" + Turn.CURRENT_NUMBER;
-						enterprise.mark(searchTurn, 1);
+						enterprise.mark(searchTurn, 1, time.date());
 					} else if (clOp == 2) {
 						String searchTurn = Turn.CURRENT_LETTER + "" + Turn.CURRENT_NUMBER;
-						enterprise.mark(searchTurn, 2);
+						enterprise.mark(searchTurn, 2, time.date());
 					}
 				} catch (NotFoundException e) {
 					System.out.println(e.getMessage());
@@ -108,6 +123,22 @@ public class Main {
 			case 4:
 				System.out.println(enterprise.report());
 				break;
+			case 5:
+				try {					
+				System.out.println("ID of Client");
+				String idClient = sc.nextLine();
+				System.out.println("Turn that you want to add");
+				String shiftToClient = sc.nextLine();
+				if (shiftToClient.length() != 3) {
+					throw new TypingWrongException(shiftToClient);
+				}
+				enterprise.addShiftToClient(idClient, shiftToClient);
+				} catch (TypingWrongException e) {
+					System.out.println(e.getMessage());
+				} catch (NotFoundException e) {
+					System.out.println(e.getMessage());
+				}
+				
 			default:
 				System.out.println("Incorrect Option");
 				break;
@@ -120,12 +151,13 @@ public class Main {
 		System.out.println("2. Add a Turn");
 		System.out.println("3. Attend a Client");
 		System.out.println("4. Show report");
+		System.out.println("5. Give an existing Shift to a Client");
 		System.out.println("0. Exit and Save");
 	}
 
 	private static void save() {
 		try {
-			File f = new File("data/tot.dat");
+			File f = new File(ROUTE);
 			if (f.exists() == false) {
 				f.createNewFile();
 			}
@@ -149,6 +181,7 @@ public class Main {
 			ois.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("No se encuentra el archivo o es primera vez que se ejecuta el programa");
+			enterprise = new Enterprise();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {

@@ -4,10 +4,9 @@ import java.io.Serializable;
 
 public class TypeOfTurn implements Serializable {
 	private String name;
-	private float duration;
+	private double duration;
 
-	public TypeOfTurn(String name, float duration) {
-		super();
+	public TypeOfTurn(String name, double duration) {
 		this.name = name;
 		this.duration = duration;
 	}
@@ -20,11 +19,11 @@ public class TypeOfTurn implements Serializable {
 		this.name = name;
 	}
 
-	public float getDuration() {
+	public double getDuration() {
 		return duration;
 	}
 
-	public void setDuration(float duration) {
+	public void setDuration(double duration) {
 		this.duration = duration;
 	}
 
