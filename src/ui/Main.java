@@ -160,7 +160,13 @@ public class Main {
 				System.out.println();
 				break;
 			case 7:
-				
+				System.out.println("Number of random Clients");
+				int v = Integer.parseInt(sc.nextLine());
+				try {
+					enterprise.createClients(v);
+				} catch (IOException e) {		
+					e.printStackTrace();
+				}
 				break;
 			default:
 				System.out.println("Incorrect Option");
@@ -176,6 +182,7 @@ public class Main {
 		System.out.println("4. Show report");
 		System.out.println("5. Give an existing Shift to a Client");
 		System.out.println("6. Show Date");
+		System.out.println("7. Create Random Clients");
 		System.out.println("0. Exit and Save");
 	}
 
