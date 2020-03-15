@@ -421,4 +421,17 @@ public class Enterprise implements Serializable {
 		}
 	}
 
+	public String reportOfShift(String shift) {
+		String msg = "";
+		boolean e = false;
+		for (int i = 0; i < cli.size() && !e; i++) {
+			if (cli.get(i).searchTurn(shift) == true) {
+				e = true;
+				msg += cli.get(i).report();
+			}
+		}
+		return msg;
+		
+	}
+
 }

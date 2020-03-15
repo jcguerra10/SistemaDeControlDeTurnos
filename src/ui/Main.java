@@ -168,6 +168,11 @@ public class Main {
 					e.printStackTrace();
 				}
 				break;
+			case 8:
+				System.out.println("Type the shift you want");
+				String shift = sc.nextLine();
+				System.out.println(enterprise.reportOfShift(shift));
+				break;
 			default:
 				System.out.println("Incorrect Option");
 				break;
@@ -183,6 +188,7 @@ public class Main {
 		System.out.println("5. Give an existing Shift to a Client");
 		System.out.println("6. Show Date");
 		System.out.println("7. Create Random Clients");
+		System.out.println("8. Report Of Especific Shift");
 		System.out.println("0. Exit and Save");
 	}
 

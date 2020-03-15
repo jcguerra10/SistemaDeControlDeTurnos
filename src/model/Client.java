@@ -241,4 +241,14 @@ public class Client implements Serializable, Comparable<Client> {
 		}
 		return comp;
 	}
+	
+	public boolean searchTurn(String turn) {
+		boolean e = false;
+		for (int i = 0; i < shifts.size() && !e; i++) {
+			if (shifts.get(i).getTurn().equalsIgnoreCase(turn)) {
+				e = true;
+			}			
+		}
+		return e;
+	}
 }

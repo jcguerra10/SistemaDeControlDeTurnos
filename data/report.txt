@@ -1,8 +1,10 @@
+10 g j
+Shifts: 
+	A00 0 El turno esta activo    Type: a 2.0
 785574512-2 Whitwam Simeon
 Shifts: 
 533781343-9 McGillreich Nickey
 Shifts: 
+	A01 1 El turno esta activo    Type: a 2.0
 487215775-3 Gockelen Ewell
-Shifts: 
-928291558-1 Kluger Cosmo
 Shifts: 
