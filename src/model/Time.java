@@ -85,6 +85,7 @@ public class Time implements Serializable{
 		hour = setHour();
 		day = setDay();
 		month = setMonth();
+		monthInt = setMonthInt();
 		year = setYear();
 	}
 	
